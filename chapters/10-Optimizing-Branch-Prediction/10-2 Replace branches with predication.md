@@ -61,6 +61,14 @@ The typical example of the tradeoffs involved when choosing between the standard
 
 The binary search is a neat example that shows how one can reason about when choosing between standard and branchless implementation. The real-world scenario can be more difficult to analyze, so again, measure to find out if it would be beneficial to replace branches in your case.
 
+In simple cases the compiler can make the right call between using branching or
+branchless code. It can leverage the processor scheduling model and code
+properties such as critical path information for cost-benefit analysis.
+[TODO]: LLVM RFC from Sotiris Apostolakis with branch-vs-cmov optimization.
+BOLT has an experimental CMOV conversion optimization that leverages LBR
+misprediction information available in recent microarchitectures (Skylake and
+higher).
+
 [^1]: Example of replacing branches with CMOV - [https://easyperf.net/blog/2019/04/10/Performance-analysis-and-tuning-contest-2#fighting-branch-mispredictions-9](https://easyperf.net/blog/2019/04/10/Performance-analysis-and-tuning-contest-2#fighting-branch-mispredictions-9)
 [^2]: Similar transformation can be done for floating-point numbers with `FCMOVcc,VMAXSS/VMINSS` instruction.
 [^3]: You can read a more detailed discussion at [https://stackoverflow.com/a/54273248](https://stackoverflow.com/a/54273248).
